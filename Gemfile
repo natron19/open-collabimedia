@@ -67,5 +67,5 @@ end
 
 group :test do
   gem "capybara"
-  gem "shoulda-matchers", "~> 6.0"
+  gem "shoulda-matchers", "~> 7.0"
 end
