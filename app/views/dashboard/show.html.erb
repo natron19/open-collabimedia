@@ -1,0 +1,37 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">Good <%= time_of_day_greeting %>, <%= current_user.first_name %>.</h1>
+  <%= link_to "New product", new_product_path, class: "btn btn-primary" %>
+</div>
+
+<% recent_packages = current_user.content_packages.order(created_at: :desc).limit(3) %>
+
+<% if recent_packages.any? %>
+  <h5 class="text-muted mb-3">Recent content packages</h5>
+  <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
+    <% recent_packages.each do |pkg| %>
+      <div class="col">
+        <div class="card bg-dark border-secondary h-100">
+          <div class="card-body">
+            <h6 class="card-title fw-semibold mb-1"><%= pkg.product.name %></h6>
+            <% goal_class = { "awareness" => "bg-primary", "engagement" => "bg-success", "conversion" => "bg-warning text-dark" }[pkg.product.content_goal] %>
+            <span class="badge <%= goal_class %> mb-2"><%= pkg.product.content_goal.capitalize %></span>
+            <p class="text-muted small mb-3">Generated <%= pkg.created_at.strftime("%b %-d, %Y") %></p>
+            <%= link_to "View package", product_content_package_path(pkg.product, pkg), class: "btn btn-sm btn-outline-secondary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <p class="text-muted small">
+    <%= link_to "View all products →", products_path %>
+  </p>
+<% else %>
+  <div class="card bg-dark border-secondary">
+    <div class="card-body text-center py-5">
+      <i class="bi bi-pencil-square display-4 mb-3 d-block" style="color: var(--accent)"></i>
+      <h5 class="mb-2">No content packages yet</h5>
+      <p class="text-muted mb-4">Create your first product and generate a five-piece social content package in under 30 seconds.</p>
+      <%= link_to "Create your first product", new_product_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

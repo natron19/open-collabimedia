@@ -1,0 +1,80 @@
+<% if product.errors.any? %>
+  <div class="alert alert-danger mb-4">
+    <strong>Please fix the following errors:</strong>
+    <ul class="mb-0 mt-1">
+      <% product.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: product, class: "needs-validation" do |f| %>
+  <div class="mb-3">
+    <%= f.label :name, class: "form-label" %>
+    <%= f.text_field :name, class: "form-control #{"is-invalid" if product.errors[:name].any?}",
+          maxlength: 100, required: true, placeholder: "e.g., LaunchLog" %>
+    <% if product.errors[:name].any? %>
+      <div class="invalid-feedback"><%= product.errors[:name].first %></div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description, class: "form-label" %>
+    <%= f.text_area :description, class: "form-control #{"is-invalid" if product.errors[:description].any?}",
+          rows: 6, required: true,
+          placeholder: "Describe what your product does, who it helps, and what makes it different." %>
+    <div class="form-text">Describe what your product does, who it helps, and what makes it different. (50–2000 characters)</div>
+    <% if product.errors[:description].any? %>
+      <div class="invalid-feedback"><%= product.errors[:description].first %></div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :target_audience, class: "form-label" %>
+    <%= f.text_field :target_audience, class: "form-control #{"is-invalid" if product.errors[:target_audience].any?}",
+          maxlength: 150, required: true,
+          placeholder: "e.g., freelance designers who sell digital templates" %>
+    <div class="form-text">Describe the intended buyer or reader in plain language.</div>
+    <% if product.errors[:target_audience].any? %>
+      <div class="invalid-feedback"><%= product.errors[:target_audience].first %></div>
+    <% end %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :content_goal, class: "form-label d-block mb-2" %>
+    <div class="btn-group w-100" role="group">
+      <% [["awareness", "Awareness"], ["engagement", "Engagement"], ["conversion", "Conversion"]].each do |value, label| %>
+        <%= f.radio_button :content_goal, value,
+              class: "btn-check",
+              id: "content_goal_#{value}" %>
+        <%= f.label :content_goal, label,
+              value: value,
+              for: "content_goal_#{value}",
+              class: "btn btn-outline-primary" %>
+      <% end %>
+    </div>
+    <div class="row mt-2 text-center">
+      <div class="col">
+        <div class="content-goal-description">Introduce the problem and your product's existence.</div>
+      </div>
+      <div class="col">
+        <div class="content-goal-description">Start a conversation or share a counterintuitive insight.</div>
+      </div>
+      <div class="col">
+        <div class="content-goal-description">Drive action with concrete outcomes and a direct CTA.</div>
+      </div>
+    </div>
+    <% if product.errors[:content_goal].any? %>
+      <div class="text-danger small mt-1"><%= product.errors[:content_goal].first %></div>
+    <% end %>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= f.submit product.new_record? ? "Create product" : "Save changes",
+          class: "btn btn-primary" %>
+    <%= link_to "Cancel",
+          product.new_record? ? products_path : product_path(product),
+          class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>

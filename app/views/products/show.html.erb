@@ -1,0 +1,104 @@
+<div class="d-flex justify-content-between align-items-start mb-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item"><%= link_to "Products", products_path %></li>
+      <li class="breadcrumb-item active"><%= @product.name %></li>
+    </ol>
+  </nav>
+  <%= link_to "Edit", edit_product_path(@product), class: "btn btn-sm btn-outline-secondary" %>
+</div>
+
+<div class="card bg-dark border-secondary mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start mb-2">
+      <h2 class="mb-0"><%= @product.name %></h2>
+      <% goal_class = { "awareness" => "bg-primary", "engagement" => "bg-success", "conversion" => "bg-warning text-dark" }[@product.content_goal] %>
+      <span class="badge <%= goal_class %>"><%= @product.content_goal.capitalize %></span>
+    </div>
+    <p class="text-muted mb-3"><%= @product.description %></p>
+    <p class="small mb-0"><span class="text-muted">Audience:</span> <%= @product.target_audience %></p>
+  </div>
+</div>
+
+<div data-controller="loading-button">
+  <div class="card bg-dark border-secondary mb-4">
+    <div class="card-body" data-loading-button-target="form">
+      <h5 class="mb-3">Generate a content package</h5>
+      <p class="text-muted small mb-3">
+        Gemini will produce a LinkedIn post, Twitter/X thread opener, email subject and preview,
+        promotional hook, and community question — all tailored to your
+        <strong><%= @product.content_goal %></strong> goal.
+      </p>
+      <%= form_with url: product_content_packages_path(@product) do |f| %>
+        <%= f.hidden_field :custom_instructions, value: "",
+              data: { loading_button_target: "hidden" } %>
+        <button type="button" class="btn btn-primary"
+                data-action="click->loading-button#open">
+          Generate new content package
+        </button>
+      <% end %>
+    </div>
+
+    <div class="card-body" data-loading-button-target="loading" hidden>
+      <h5 class="mb-2">Generating your content package&hellip;</h5>
+      <p class="text-muted small mb-3">
+        Writing your LinkedIn post, Twitter hook, email copy, and more.
+        This usually takes 5&ndash;10 seconds.
+      </p>
+      <div class="progress mb-4" style="height:6px;" role="progressbar" aria-label="Generating">
+        <div class="progress-bar progress-bar-striped progress-bar-animated"
+             style="width:100%"></div>
+      </div>
+      <%= link_to "Cancel", @product, class: "btn btn-outline-secondary btn-sm" %>
+    </div>
+  </div>
+
+  <div class="modal fade" tabindex="-1" data-loading-button-target="modal">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark border-secondary">
+        <div class="modal-header border-secondary">
+          <h5 class="modal-title">Generate content package</h5>
+          <button type="button" class="btn-close btn-close-white"
+                  data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label">
+            Custom instructions
+            <span class="text-muted fw-normal small">(optional)</span>
+          </label>
+          <textarea class="form-control bg-dark text-white border-secondary" rows="4"
+                    data-loading-button-target="instructions"
+                    placeholder="e.g. Use a casual tone. Emphasise the free trial. Make the LinkedIn post longer and more personal."></textarea>
+          <div class="form-text mt-2">Leave blank to use the default prompt.</div>
+        </div>
+        <div class="modal-footer border-secondary">
+          <button type="button" class="btn btn-outline-secondary"
+                  data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary"
+                  data-action="click->loading-button#generate">
+            Generate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h5 class="mb-3">
+  Package history
+  <span class="badge bg-secondary ms-1"><%= @content_packages.count %></span>
+</h5>
+
+<% if @content_packages.any? %>
+  <div class="list-group list-group-flush">
+    <% @content_packages.each do |pkg| %>
+      <div class="list-group-item bg-dark border-secondary d-flex justify-content-between align-items-center">
+        <span class="text-muted small">Generated <%= pkg.created_at.strftime("%b %-d, %Y at %-I:%M %p") %></span>
+        <%= link_to "View full package →", product_content_package_path(@product, pkg),
+              class: "btn btn-sm btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-muted small">No packages yet. Click Generate above to create your first one.</p>
+<% end %>

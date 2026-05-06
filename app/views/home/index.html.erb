@@ -1,0 +1,97 @@
+<div class="text-center py-5 mb-5 border-bottom border-secondary">
+  <h1 class="display-4 fw-bold mb-3">
+    Turn your product description<br class="d-none d-md-block">
+    into a week of social content
+  </h1>
+  <p class="lead text-muted col-lg-7 mx-auto mb-4">
+    <%= ENV.fetch("APP_TAGLINE", "") %>
+  </p>
+  <% if signed_in? %>
+    <%= link_to "Go to dashboard", dashboard_path, class: "btn btn-primary btn-lg" %>
+  <% else %>
+    <%= link_to "Get started free", sign_up_path, class: "btn btn-primary btn-lg me-2" %>
+    <%= link_to "Sign in", sign_in_path, class: "btn btn-outline-secondary btn-lg" %>
+  <% end %>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5 text-center">
+  <div class="col">
+    <i class="bi bi-pencil-square display-5 mb-3 d-block" style="color: var(--accent)"></i>
+    <h5 class="fw-bold">1. Describe your product</h5>
+    <p class="text-muted small">Enter your product name, a plain-English description, and who it's for. Takes two minutes.</p>
+  </div>
+  <div class="col">
+    <i class="bi bi-bullseye display-5 mb-3 d-block" style="color: var(--accent)"></i>
+    <h5 class="fw-bold">2. Choose your content goal</h5>
+    <p class="text-muted small">Tell the AI whether you want to build awareness, drive engagement, or convert buyers. The output changes meaningfully.</p>
+  </div>
+  <div class="col">
+    <i class="bi bi-send display-5 mb-3 d-block" style="color: var(--accent)"></i>
+    <h5 class="fw-bold">3. Copy and publish</h5>
+    <p class="text-muted small">Your five-piece content package is ready in seconds. Copy each piece and post it across your channels.</p>
+  </div>
+</div>
+
+<div class="mb-2">
+  <h4 class="fw-bold mb-1">Sample output</h4>
+  <p class="text-muted small mb-4">What you get for a single product description — five formats, ready to publish.</p>
+</div>
+
+<div class="card mb-3 border-secondary bg-dark">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">LinkedIn Post</span>
+    <span class="badge bg-secondary">150–250 words</span>
+  </div>
+  <div class="card-body">
+    <p class="mb-1">Most indie SaaS founders ship updates constantly but never tell anyone.</p>
+    <p class="mb-1">There's always something more urgent than writing the changelog. Then three months pass and customers don't know about features you built for them.</p>
+    <p class="mb-0">This tool fixes the announcement problem without adding a new writing task to your week. Write one plain-English update. It formats a changelog entry, drafts a tweet, and writes an email to your list — in under three minutes. If you're shipping fast and your customers aren't keeping up, check it out.</p>
+  </div>
+</div>
+
+<div class="card mb-3 border-secondary bg-dark">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">Twitter/X Thread Opener</span>
+    <span class="badge bg-secondary">under 280 characters</span>
+  </div>
+  <div class="card-body">
+    <p class="mb-0">I ship features faster than I announce them. Most founders do. Here's the system I built to close that gap without adding another task to my week.</p>
+  </div>
+</div>
+
+<div class="card mb-3 border-secondary bg-dark">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">Email — Subject &amp; Preview</span>
+    <span class="badge bg-secondary">subject + preview</span>
+  </div>
+  <div class="card-body">
+    <p class="mb-1"><code>Your users don't know what you built</code></p>
+    <p class="mb-0 text-muted small">You shipped three features last month. Your subscribers heard about zero of them. Here's how to close that gap in the time it takes to write one Slack message.</p>
+  </div>
+</div>
+
+<div class="card mb-3 border-secondary bg-dark">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">Promotional Hook</span>
+    <span class="badge bg-secondary">headline + sentence</span>
+  </div>
+  <div class="card-body">
+    <p class="mb-0 fs-5">One update, three channels, three minutes. The changelog habit you'll actually keep.</p>
+  </div>
+</div>
+
+<div class="card mb-5 border-secondary bg-dark">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">Community Question</span>
+    <span class="badge bg-secondary">under 40 words</span>
+  </div>
+  <div class="card-body">
+    <p class="mb-0">How do you handle the gap between shipping a feature and actually telling your users about it? Is there a system that works, or does it always get deprioritized?</p>
+  </div>
+</div>
+
+<% unless signed_in? %>
+  <div class="text-center pb-4">
+    <%= link_to "Try it with your product →", sign_up_path, class: "btn btn-primary btn-lg" %>
+  </div>
+<% end %>

@@ -1,0 +1,106 @@
+<nav aria-label="breadcrumb" class="mb-4">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Products", products_path %></li>
+    <li class="breadcrumb-item"><%= link_to @content_package.product.name, product_path(@content_package.product) %></li>
+    <li class="breadcrumb-item active">Content Package</li>
+  </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-start mb-4">
+  <div>
+    <h2 class="mb-1"><%= @content_package.product.name %></h2>
+    <% goal_class = { "awareness" => "bg-primary", "engagement" => "bg-success", "conversion" => "bg-warning text-dark" }[@content_package.product.content_goal] %>
+    <span class="badge <%= goal_class %>"><%= @content_package.product.content_goal.capitalize %></span>
+    <span class="text-muted small ms-2">Generated <%= @content_package.created_at.strftime("%b %-d, %Y at %-I:%M %p") %></span>
+  </div>
+</div>
+
+<div class="card mb-3 border-secondary bg-dark" data-controller="clipboard">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">LinkedIn Post</span>
+    <button class="btn btn-sm btn-outline-secondary"
+            data-action="click->clipboard#copy"
+            data-clipboard-target="button">Copy</button>
+  </div>
+  <div class="card-body">
+    <div class="fs-6" data-clipboard-target="source"><%= simple_format @content_package.linkedin_post %></div>
+  </div>
+</div>
+
+<div class="card mb-3 border-secondary bg-dark" data-controller="clipboard">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">Twitter/X Thread Opener</span>
+    <button class="btn btn-sm btn-outline-secondary"
+            data-action="click->clipboard#copy"
+            data-clipboard-target="button">Copy</button>
+  </div>
+  <div class="card-body">
+    <p class="mb-0" data-clipboard-target="source"><%= @content_package.twitter_hook %></p>
+  </div>
+</div>
+
+<div class="card mb-3 border-secondary bg-dark" data-controller="clipboard">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">Email — Subject &amp; Preview</span>
+    <button class="btn btn-sm btn-outline-secondary"
+            data-action="click->clipboard#copy"
+            data-clipboard-target="button">Copy</button>
+  </div>
+  <div class="card-body">
+    <div data-clipboard-target="source">
+      <p class="mb-1"><code><%= @content_package.email_subject %></code></p>
+      <p class="mb-0 text-muted small"><%= @content_package.email_preview %></p>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3 border-secondary bg-dark" data-controller="clipboard">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">Promotional Hook</span>
+    <button class="btn btn-sm btn-outline-secondary"
+            data-action="click->clipboard#copy"
+            data-clipboard-target="button">Copy</button>
+  </div>
+  <div class="card-body">
+    <p class="mb-0 fs-5" data-clipboard-target="source"><%= @content_package.promo_hook %></p>
+  </div>
+</div>
+
+<div class="card mb-4 border-secondary bg-dark" data-controller="clipboard">
+  <div class="card-header content-card-header d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">Community Question</span>
+    <button class="btn btn-sm btn-outline-secondary"
+            data-action="click->clipboard#copy"
+            data-clipboard-target="button">Copy</button>
+  </div>
+  <div class="card-body">
+    <p class="mb-0" data-clipboard-target="source"><%= @content_package.community_question %></p>
+  </div>
+</div>
+
+<p class="text-muted small mb-4">
+  <i class="bi bi-info-circle me-1"></i>
+  Review each piece before publishing. AI content may not fully capture your product voice.
+</p>
+
+<div class="mb-4">
+  <button class="btn btn-sm btn-outline-secondary"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#raw-response"
+          aria-expanded="false">
+    Show raw Gemini response
+  </button>
+  <div class="collapse mt-2" id="raw-response">
+    <pre class="bg-dark border border-secondary rounded p-3 small text-muted" style="overflow-x: auto; white-space: pre-wrap;"><%= @content_package.gemini_raw %></pre>
+  </div>
+</div>
+
+<div class="d-flex gap-2">
+  <%= link_to "← Back to #{@content_package.product.name}", product_path(@content_package.product),
+        class: "btn btn-outline-secondary" %>
+  <%= link_to "Delete package",
+        product_content_package_path(@content_package.product, @content_package),
+        data: { turbo_method: :delete, turbo_confirm: "Delete this content package?" },
+        class: "btn btn-outline-danger" %>
+</div>
