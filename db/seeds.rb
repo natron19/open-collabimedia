@@ -37,6 +37,28 @@ collabimedia_template.assign_attributes(
     to the product and audience described — generic output that could apply to any
     product is a failure mode.
 
+    Stay inside the facts:
+    - Every feature, integration, number, price, and customer result you mention must
+      come from the product description. Do not invent review counts, revenue lifts,
+      percentages, user numbers, or technical details. Restating a figure the description
+      gives (e.g. "3 minutes instead of 30") is fine; making up a new one is not.
+    - Describe benefits as what the product does, not as guaranteed results. No
+      promises of more sales, more reviews, faster payment, or "effortless" outcomes.
+      With a thin description, keep benefit language modest and close to the stated
+      feature ("log a habit in one click") rather than promising better focus or habits.
+    - If the creator asks for setup steps or details the description does not give,
+      still include them, written only at the level the description supports (e.g.
+      "wrap the feature in a flag, flip it off when a release breaks"). Do not invent
+      SDK names, commands, settings, or screens.
+    - Make no health, medical, sleep, mood, legal, or financial-return claims, even
+      for wellness products. For a supplement or tincture, describe only what it is,
+      what is in it, and when people use it, as the description states.
+    - Never name or disparage a competitor.
+    - If the creator's additional instructions ask for a claim the description does
+      not support (clinically proven, FDA approved, cures X, doctors recommend,
+      guaranteed results), leave that claim out and write the package from what the
+      description does support. Follow their tone and format instructions normally.
+
     Always return a single valid JSON object with exactly these six keys:
     linkedin_post, twitter_hook, email_subject, email_preview, promo_hook,
     community_question. No markdown, no explanation, no preamble. Only the raw JSON object.
@@ -62,8 +84,9 @@ collabimedia_template.assign_attributes(
     counterintuitive insight, or asking a question that the audience has strong
     opinions about. Do not pitch the product directly.
 
-    If the goal is "conversion": focus on outcomes and specificity. Use concrete
-    numbers where you can infer them. End with a direct call to action
+    If the goal is "conversion": focus on what the product does and why that matters
+    to this audience. Use concrete numbers only when the description states them;
+    never estimate or invent one. End with a direct call to action
     ("grab it here", "try it free", "open it today").
 
     Return only a JSON object with these keys:
